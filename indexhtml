@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kärlek ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Pacifico', cursive;
+    background: radial-gradient(circle at top left, #ffb6c1, #ff69b4, #ff1493);
+  }
+
+  /* Stort centralt hjärta */
+  .main-heart {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 270px;
+    background: red;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    animation: pulse 1.5s infinite;
+    z-index: 4;
+    cursor: pointer;
+  }
+  .main-heart::before,
+  .main-heart::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 270px;
+    background: red;
+    border-radius: 50%;
+  }
+  .main-heart::before { top: -150px; left: 0; }
+  .main-heart::after { left: 150px; top: 0; }
+
+  .main-heart-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    color: white;
+    text-align: center;
+    font-size: 22px;
+    line-height: 1.4;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    pointer-events: none;
+  }
+
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+    50% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.1); }
+    100% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+  }
+
+  /* Flygande hjärtan */
+  .small-heart, .initial-heart, .bg-heart {
+    position: fixed;
+    transform: rotate(-45deg);
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .small-heart, .initial-heart {
+    animation: float linear infinite, colorChange 4s linear infinite;
+  }
+  .bg-heart {
+    animation: floatSlow linear infinite, colorChange 6s linear infinite;
+    z-index: 0;
+  }
+
+  .small-heart::before, .small-heart::after,
+  .initial-heart::before, .initial-heart::after,
+  .bg-heart::before, .bg-heart::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+  }
+  .small-heart::before, .initial-heart::before, .bg-heart::before { top: -50%; left: 0; }
+  .small-heart::after, .initial-heart::after, .bg-heart::after { left: 50%; top: 0; }
+
+  .initial-heart span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(100vh) rotate(-45deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-50vh) rotate(-45deg); opacity: 0; }
+  }
+
+  @keyframes floatSlow {
+    0% { transform: translateY(120vh) rotate(-45deg); opacity: 0.2; }
+    50% { opacity: 0.4; }
+    100% { transform: translateY(-80vh) rotate(-45deg); opacity: 0.2; }
+  }
+
+  @keyframes colorChange {
+    0% { background: #ff69b4; }
+    25% { background: #ff1493; }
+    50% { background: #ffb6c1; }
+    75% { background: #ff4500; }
+    100% { background: #ff69b4; }
+  }
+
+  /* Startknapp */
+  #start-btn {
+    position: fixed;
+    z-index: 5;
+    padding: 15px 25px;
+    font-size: 20px;
+    cursor: pointer;
+    background: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+</head>
+<body>
+
+<!-- Stort centralt hjärta -->
+<div class="main-heart" id="main-heart">
+  <div class="main-heart-text" id="heart-text">I love you<br>my stupid boyfriend</div>
+</div>
+
+<!-- Startknapp -->
+<button id="start-btn">Starta musik 🎵</button>
+
+<script>
+  const colors = ['#ff69b4','#ff1493','#ffb6c1','#ff4500','#ff6347','#ff00ff'];
+
+  function createHeart(type='small-heart') {
+    let heart = document.createElement('div');
+    heart.className = type;
+    let size;
+    if(type==='bg-heart'){
+      size = 80 + Math.random()*120;
+    } else {
+      size = 10 + Math.random()*30;
+    }
+    heart.style.width = size + 'px';
+    heart.style.height = size*0.9 + 'px';
+    heart.style.left = Math.random()*100+'vw';
+    heart.style.background = colors[Math.floor(Math.random()*colors.length)];
+    heart.style.opacity = Math.random()*0.8+0.2;
+    heart.style.animationDuration = (type==='bg-heart' ? (10 + Math.random()*10)+'s' : (4 + Math.random()*6)+'s');
+
+    if(type==='initial-heart'){
+      let span = document.createElement('span');
+      span.innerText = 'E+M';
+      heart.appendChild(span);
+    }
+    document.body.appendChild(heart);
+  }
+
+  // Extra stora hjärtan i bakgrunden
+  for(let i=0;i<10;i++) createHeart('bg-heart');
+
+  // Små flygande hjärtan
+  for(let i=0;i<50;i++) createHeart('small-heart');
+
+  // Initial-hjärtan
+  for(let i=0;i<15;i++) createHeart('initial-heart');
+
+  // YouTube musik
+  const iframe = document.createElement('iframe');
+  iframe.width = "0";
+  iframe.height = "0";
+  iframe.src = "https://www.youtube.com/embed/StBz_XUjGDA?loop=1&playlist=StBz_XUjGDA";
+  iframe.allow = "autoplay";
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  // Startknapp funktion
+  document.getElementById('start-btn').addEventListener('click', ()=>{
+    iframe.src += "&autoplay=1";
+    document.getElementById('start-btn').style.display = 'none';
+  });
+
+  // Klick på stort hjärta ändrar text
+  document.getElementById('main-heart').addEventListener('click', () => {
+    const heartText = document.getElementById('heart-text');
+    heartText.innerText = "Älskar dig mest av allt du är det finaste jag har. Är så tacksam för dig och ditt tålamod med mig. Du är allt jag någonsin kunde önska mig. Tack att du är du och att det alltid är vi för nothing else matters <3 Ps. Saknar dig ändå";
+    heartText.style.fontSize = "16px"; // mindre font för långa texten
+    heartText.style.lineHeight = "1.4";
+  });
+</script>
+
+</body>
+</html>
+
